@@ -5,6 +5,7 @@ import socket from './socket';
 
 
 function App() {
+  const [state, dispatch] = React.useReducer(first, second, third)
   return (
     <div className="wrapper">
       <JoinBlock />
