@@ -1,28 +1,26 @@
 import React from 'react';
-import './index.css';
+import socket from './socket';
 import JoinBlock from './components/JoinBlock';
-import reducer from './reducer'
+import reducer from './reducer';
 
+import './index.css';
 
 function App() {
   const [state, dispatch] = React.useReducer(reducer, {
-    isAuth: false,
+    joined: false,
+    roomId: null,
+    userName: null,
   });
 
-  const onLogin = () => {
+  const onLogin = (obj) => {
     dispatch({
-      type: 'IS_AUTH',
-      payload: true
+      type: 'JOINED',
+      payload: obj,
     });
-  }
+    socket.emit('ROOM:JOIN', obj);
+  };
 
-  console.log(state);
-
-  return (
-    <div className="wrapper">
-      <JoinBlock onLogin={onLogin}/>
-    </div>
-  );
+  return <div className="wrapper">{!state.isAuth && <JoinBlock onLogin={onLogin} />}</div>;
 }
 
 export default App;
